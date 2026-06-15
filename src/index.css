@@ -1,0 +1,475 @@
+/* ==========================================
+   ExamVault 2026 Core Design System CSS
+   ========================================== */
+
+:root {
+  /* Color Tokens */
+  --primary: #1a2e52;
+  --primary-light: #2c4475;
+  --primary-rgb: 26, 46, 82;
+  --secondary: #f5a623;
+  --secondary-light: #f7b84b;
+  --secondary-rgb: 245, 166, 35;
+  --success: #2d7d46;
+  --success-light: #3a9c59;
+  --success-bg: rgba(45, 125, 70, 0.12);
+  --error: #c0392b;
+  --error-light: #d94d3c;
+  --error-bg: rgba(192, 57, 43, 0.12);
+  --warning: #d97706;
+  --warning-bg: rgba(217, 119, 6, 0.12);
+  
+  /* Neutral Color Tokens */
+  --bg-main: #f8fafc;
+  --bg-card: #ffffff;
+  --bg-input: #ffffff;
+  --border-color: #e2e8f0;
+  --text-main: #0f172a;
+  --text-muted: #64748b;
+  --text-light: #94a3b8;
+  
+  /* Glassmorphism & Details */
+  --glass-bg: rgba(255, 255, 255, 0.75);
+  --glass-border: rgba(226, 232, 240, 0.6);
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(15, 23, 42, 0.08), 0 2px 4px -2px rgba(15, 23, 42, 0.04);
+  --shadow-lg: 0 10px 15px -3px rgba(15, 23, 42, 0.1), 0 4px 6px -4px rgba(15, 23, 42, 0.05);
+  --shadow-xl: 0 20px 25px -5px rgba(15, 23, 42, 0.12), 0 8px 10px -6px rgba(15, 23, 42, 0.08);
+  
+  /* Rounding & Sizing */
+  --radius-sm: 6px;
+  --radius-md: 12px;
+  --radius-lg: 18px;
+  --radius-full: 9999px;
+  
+  /* Typography */
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-heading: 'Poppins', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+  
+  /* Transitions */
+  --transition-fast: 0.15s ease;
+  --transition-normal: 0.25s ease;
+  --transition-slow: 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Dark Mode Variables Override */
+body.dark {
+  --bg-main: #0b0f19;
+  --bg-card: #161f30;
+  --bg-input: #0f172a;
+  --border-color: #243048;
+  --text-main: #f8fafc;
+  --text-muted: #94a3b8;
+  --text-light: #64748b;
+  
+  --glass-bg: rgba(22, 31, 48, 0.8);
+  --glass-border: rgba(36, 48, 72, 0.6);
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.4), 0 2px 4px -2px rgba(0, 0, 0, 0.3);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.45), 0 4px 6px -4px rgba(0, 0, 0, 0.35);
+  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.5), 0 8px 10px -6px rgba(0, 0, 0, 0.4);
+  
+  --success-bg: rgba(45, 125, 70, 0.2);
+  --error-bg: rgba(192, 57, 43, 0.2);
+  --warning-bg: rgba(217, 119, 6, 0.2);
+}
+
+/* ==========================================
+   Base Elements Reset
+   ========================================== */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: var(--bg-main);
+  color: var(--text-main);
+  transition: background-color var(--transition-normal), color var(--transition-normal);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1.25;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button, input, select, textarea {
+  font-family: inherit;
+  font-size: inherit;
+  color: inherit;
+  outline: none;
+}
+
+/* ==========================================
+   Scrollbar & Utilities
+   ========================================== */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--border-color);
+  border-radius: var(--radius-full);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-light);
+}
+
+.container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+.text-center { text-align: center; }
+.flex { display: flex; }
+.flex-col { flex-direction: column; }
+.items-center { align-items: center; }
+.justify-between { justify-content: space-between; }
+.gap-1 { gap: 4px; }
+.gap-2 { gap: 8px; }
+.gap-4 { gap: 16px; }
+.gap-6 { gap: 24px; }
+.w-full { width: 100%; }
+
+/* ==========================================
+   Design System Components
+   ========================================== */
+
+/* Glassmorphism Card style */
+.card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+  padding: 24px;
+  transition: transform var(--transition-normal), box-shadow var(--transition-normal), border-color var(--transition-normal);
+  position: relative;
+  overflow: hidden;
+}
+.card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+  border-color: var(--secondary);
+}
+.card-glass {
+  background: var(--glass-bg);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--shadow-md);
+}
+
+/* Custom Grids */
+.grid-2 {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24px;
+}
+.grid-3 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+.grid-4 {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+}
+@media (max-width: 1024px) {
+  .grid-4 { grid-template-columns: repeat(2, 1fr); }
+  .grid-3 { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 640px) {
+  .grid-4, .grid-3, .grid-2 {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+}
+
+/* Interactive Buttons */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-weight: 500;
+  padding: 10px 20px;
+  border-radius: var(--radius-md);
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  text-align: center;
+  user-select: none;
+}
+.btn-primary {
+  background-color: var(--primary);
+  color: #ffffff;
+}
+.btn-primary:hover {
+  background-color: var(--primary-light);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(26, 46, 82, 0.25);
+}
+.btn-secondary {
+  background-color: var(--secondary);
+  color: #ffffff;
+  font-weight: 600;
+}
+.btn-secondary:hover {
+  background-color: var(--secondary-light);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(245, 166, 35, 0.25);
+}
+.btn-outline {
+  background-color: transparent;
+  border-color: var(--border-color);
+  color: var(--text-main);
+}
+.btn-outline:hover {
+  background-color: var(--border-color);
+  color: var(--text-main);
+}
+.btn-success {
+  background-color: var(--success);
+  color: #ffffff;
+}
+.btn-success:hover {
+  background-color: var(--success-light);
+}
+.btn-sm {
+  padding: 6px 12px;
+  font-size: 0.875rem;
+  border-radius: var(--radius-sm);
+}
+.btn-lg {
+  padding: 14px 28px;
+  font-size: 1.1rem;
+}
+.btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none !important;
+  box-shadow: none !important;
+}
+
+/* Badges & Tags */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: var(--radius-full);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  line-height: 1;
+}
+.badge-easy {
+  background-color: var(--success-bg);
+  color: var(--success);
+}
+.badge-medium {
+  background-color: var(--warning-bg);
+  color: var(--warning);
+}
+.badge-hard {
+  background-color: var(--error-bg);
+  color: var(--error);
+}
+.badge-primary {
+  background-color: rgba(26, 46, 82, 0.1);
+  color: var(--primary);
+}
+body.dark .badge-primary {
+  background-color: rgba(44, 68, 117, 0.3);
+  color: #94c1ff;
+}
+
+/* Form Inputs */
+.input {
+  width: 100%;
+  padding: 12px 16px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-color);
+  background-color: var(--bg-input);
+  color: var(--text-main);
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+}
+.input:focus {
+  border-color: var(--secondary);
+  box-shadow: 0 0 0 3px rgba(245, 166, 35, 0.15);
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.animated-fadeIn {
+  animation: fadeIn var(--transition-normal) forwards;
+}
+
+@keyframes pulseBorder {
+  0% { border-color: var(--border-color); }
+  50% { border-color: var(--secondary); }
+  100% { border-color: var(--border-color); }
+}
+.pulse-border {
+  animation: pulseBorder 2s infinite ease-in-out;
+}
+
+/* Accordion Accordance styling */
+.accordion-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  font-weight: 500;
+  transition: background-color var(--transition-fast);
+}
+.accordion-header:hover {
+  background-color: var(--bg-main);
+}
+.accordion-content {
+  padding: 16px;
+  background: var(--bg-main);
+  border-left: 2px solid var(--secondary);
+  border-bottom-left-radius: var(--radius-md);
+  border-bottom-right-radius: var(--radius-md);
+  margin-top: -4px;
+  animation: fadeIn 0.2s ease-out;
+}
+
+/* Circular Progress bar for Dashboard */
+.progress-circle-container {
+  position: relative;
+  width: 120px;
+  height: 120px;
+}
+.progress-circle-bg {
+  fill: none;
+  stroke: var(--border-color);
+  stroke-width: 8;
+}
+.progress-circle-value {
+  fill: none;
+  stroke: var(--secondary);
+  stroke-width: 8;
+  stroke-linecap: round;
+  transition: stroke-dashoffset 0.6s ease;
+  transform: rotate(-90deg);
+  transform-origin: 50% 50%;
+}
+
+/* ==========================================
+   CBT Mock Test Interface Styles
+   ========================================== */
+.mock-test-layout {
+  display: grid;
+  grid-template-columns: 1fr 320px;
+  gap: 24px;
+  height: calc(100vh - 120px);
+}
+@media (max-width: 960px) {
+  .mock-test-layout {
+    grid-template-columns: 1fr;
+    height: auto;
+  }
+}
+
+.mock-sidebar {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 20px;
+  display: flex;
+  flex-col: column;
+  height: 100%;
+  overflow-y: auto;
+}
+
+.question-palette {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 8px;
+  margin-top: 16px;
+}
+.palette-btn {
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-sm);
+  font-size: 0.875rem;
+  font-weight: 600;
+  border: 1px solid var(--border-color);
+  cursor: pointer;
+  background-color: var(--bg-main);
+  transition: all var(--transition-fast);
+}
+.palette-btn.unvisited {
+  background-color: var(--bg-main);
+  color: var(--text-muted);
+}
+.palette-btn.not-answered {
+  background-color: var(--error-light);
+  color: white;
+  border-color: var(--error);
+}
+.palette-btn.answered {
+  background-color: var(--success);
+  color: white;
+  border-color: var(--success);
+}
+.palette-btn.marked {
+  background-color: #8b5cf6;
+  color: white;
+  border-color: #7c3aed;
+}
+.palette-btn.active {
+  ring: 2px solid var(--secondary);
+  transform: scale(1.1);
+  box-shadow: 0 0 10px rgba(245, 166, 35, 0.4);
+}
+
+/* MathJax formulas / code render standard styling */
+code {
+  font-family: var(--font-mono);
+  background-color: rgba(0, 0, 0, 0.05);
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 0.9em;
+}
+body.dark code {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+pre {
+  background-color: rgba(0, 0, 0, 0.03);
+  padding: 16px;
+  border-radius: var(--radius-md);
+  overflow-x: auto;
+  border-left: 4px solid var(--secondary);
+}
+body.dark pre {
+  background-color: rgba(255, 255, 255, 0.05);
+}
