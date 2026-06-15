@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { wikiData } from '../data/wikiData';
 import { examsData } from '../data/examsData';
 
-export default function ResourcesView({ bookmarkedIds, toggleBookmark }) {
+export default function ResourcesView({ bookmarkedIds = [], toggleBookmark }) {
   // Navigation State
   const [selectedExamId, setSelectedExamId] = useState('ssc-cgl');
   const [selectedSubject, setSelectedSubject] = useState('');
@@ -15,10 +15,10 @@ export default function ResourcesView({ bookmarkedIds, toggleBookmark }) {
   // Set default subject and topic when exam changes
   useEffect(() => {
     const exam = examsData[selectedExamId];
-    if (exam && exam.syllabus.length > 0) {
+    if (exam && exam.syllabus && exam.syllabus.length > 0) {
       const defaultSec = exam.syllabus[0];
       setSelectedSubject(defaultSec.section);
-      if (defaultSec.topics.length > 0) {
+      if (defaultSec.topics && defaultSec.topics.length > 0) {
         setSelectedTopic(defaultSec.topics[0]);
       }
     }
@@ -30,8 +30,8 @@ export default function ResourcesView({ bookmarkedIds, toggleBookmark }) {
   const handleSelectSubject = (subName) => {
     setSelectedSubject(subName);
     const exam = examsData[selectedExamId];
-    const section = exam.syllabus.find(s => s.section === subName);
-    if (section && section.topics.length > 0) {
+    const section = exam.syllabus?.find(s => s.section === subName);
+    if (section && section.topics && section.topics.length > 0) {
       setSelectedTopic(section.topics[0]);
     }
     setSelectedOption(null);
@@ -46,11 +46,13 @@ export default function ResourcesView({ bookmarkedIds, toggleBookmark }) {
 
   // Check if we have static tutorial content
   const getArticleContent = () => {
+    if (!selectedTopic) return null;
+
     // Attempt to match static wiki keys
     const cleanTopic = selectedTopic.toLowerCase().replace(/[^a-z0-9]+/g, '-');
     const staticKey = Object.keys(wikiData).find(key => 
       key.includes(cleanTopic) || 
-      wikiData[key].topic.toLowerCase() === selectedTopic.toLowerCase()
+      (wikiData[key].topic && wikiData[key].topic.toLowerCase() === selectedTopic.toLowerCase())
     );
 
     if (staticKey) {
